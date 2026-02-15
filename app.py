@@ -132,5 +132,5 @@ st.info("💡 Tip: Improve missing skills and re-run analysis to increase your m
 
 
 st.divider()
-st.caption("Built with Streamlit + Groq LLM | Designed by Ben")
+st.caption("Built with Streamlit + Groq LLM | Designed by Benhail Benjamin")
 
