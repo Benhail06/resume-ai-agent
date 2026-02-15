@@ -15,7 +15,9 @@ from openai import OpenAI
 from groq import Groq
 import os
 
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+import streamlit as st
+
+client = Groq(api_key=st.secrets["GROQ_API_KEY"])
 
 def clean_json_response(response_text):
     import json
