@@ -60,8 +60,10 @@ if st.button("Analyze"):
             jd_data = extract_requirements_from_jd(job_description)
             st.json(jd_data)
 
-
-            
+            match_score = calculate_match_score(
+            resume_data["technical_skills"],
+            jd_data["required_skills"]
+    )       
             st.subheader("Match Analysis")
 
             score_color = "green" if match_score >= 70 else "orange" if match_score >= 40 else "red"
@@ -69,10 +71,8 @@ if st.button("Analyze"):
             st.metric("Match Score (%)", f"{match_score}%")
             st.progress(int(match_score))
 
-            match_score = calculate_match_score(
-            resume_data["technical_skills"],
-            jd_data["required_skills"]
-    )
+           
+    
 
             missing_skills = find_missing_skills(
             resume_data["technical_skills"],
