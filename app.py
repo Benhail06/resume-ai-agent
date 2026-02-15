@@ -3,11 +3,28 @@ from utils import calculate_match_score, extract_text_from_pdf, generate_intervi
 
 st.set_page_config(page_title="AI Resume Matcher")
 
+st.set_page_config(
+    page_title="Resume AI Agent",
+    page_icon="🤖",
+    layout="wide"
+)
+
+st.title("🤖 Resume AI Agent")
+st.markdown("AI-powered resume evaluation and job match analysis.")
+st.divider()
+
+
 st.title("🧠 AI Resume–Job Matcher")
 
-uploaded_file = st.file_uploader("Upload Resume (PDF)", type="pdf")
+col1, col2 = st.columns(2)
 
-job_description = st.text_area("Paste Job Description Here")
+with col1:
+    uploaded_file = st.file_uploader("Upload Resume (PDF)", type=["pdf"])
+
+with col2:
+    job_description = st.text_area("Paste Job Description", height=200)
+
+
 
 
 
@@ -44,7 +61,13 @@ if st.button("Analyze"):
             st.json(jd_data)
 
 
+            
             st.subheader("Match Analysis")
+
+            score_color = "green" if match_score >= 70 else "orange" if match_score >= 40 else "red"
+
+            st.metric("Match Score (%)", f"{match_score}%")
+            st.progress(int(match_score))
 
             match_score = calculate_match_score(
             resume_data["technical_skills"],
@@ -61,19 +84,31 @@ if st.button("Analyze"):
             missing_skills
 
     )
+            
+            st.success("Analysis Complete ✅")
 
             st.metric("Match Score (%)", match_score)
             st.progress(int(match_score))
 
 
             st.subheader("Missing Skills")
-            st.write(missing_skills)
+            if missing_skills:
+                for skill in missing_skills:
+                    st.markdown(f"- 🔴 {skill}")
+                else:
+                    st.success("No major skill gaps detected.")
+
 
             st.subheader("AI Career Advice")
             st.write(recommendations)
 
 
-           
+            with st.expander("📊 Extracted Resume Data"):
+                st.json(resume_data)
+
+            with st.expander("📋 Extracted Job Requirements"):
+                st.json(jd_data)
+
 
 
 
@@ -88,3 +123,14 @@ if st.button("Analyze"):
 
     else:
         st.warning("Please upload resume and paste job description.")
+
+st.info("💡 Tip: Improve missing skills and re-run analysis to increase your match score.")
+
+
+
+
+
+
+st.divider()
+st.caption("Built with Streamlit + Groq LLM | Designed by Ben")
+
