@@ -16,8 +16,18 @@ from groq import Groq
 import os
 
 import streamlit as st
+import os
+import streamlit as st
+from groq import Groq
 
-client = Groq(api_key=st.secrets["GROQ_API_KEY"])
+try:
+    api_key = st.secrets["GROQ_API_KEY"]
+except:
+    api_key = os.getenv("GROQ_API_KEY")
+
+client = Groq(api_key=api_key)
+
+
 
 def clean_json_response(response_text):
     import json
